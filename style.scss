@@ -1,0 +1,1753 @@
+@charset "utf-8";
+/*!
+    Theme Name: Genesis ASD AlexStillwagon.com
+	Description: Custom theme for Client Name
+	Author: Alex Stillwagon
+	Author URI: http://www.alexstillwagon.com/
+
+	Version: 1.1.2
+
+	Template: genesis
+	Template Version: 2.3
+	Requires at least: 5.0
+    Tested up to: 5.6
+    Requires PHP: 7.0
+
+	License: Commercial. All Rights Reserved
+
+	Text Domain: genesis-asd
+	*/
+
+//region Debug =============================
+body {
+	//display: none !important;
+}
+
+//endregion Debug
+
+//region Setup =============================
+//region Standard Imports ---------------------------------------------
+@import "/.../Build/reset";
+@import "/.../fonts/_asd_icons";
+//endregion Standard Imports
+
+//region Notes ---------------------------------------------
+/*Skolar Latin Bold
+font-family: skolar-latin, serif;
+font-weight: 700;
+font-style: normal;
+
+Skolar Latin Light Italic
+font-family: skolar-latin, serif;
+font-weight: 300;
+font-style: italic;
+
+Skolar Latin Light
+font-family: skolar-latin, serif;
+font-weight: 300;
+font-style: normal;
+
+font-family: myriad-pro-condensed, sans-serif;
+font-family: myriad-pro, sans-serif;
+*/
+// endregion Notes
+
+//region Variable Properties ---------------------------------------------
+$bodyFont: skolar-latin, serif;
+$headingFont: myriad-pro-condensed, sans-serif;
+$buttonFont: myriad-pro, sans-serif;
+$baseFontSize: 18px;
+$standardMargin: 0 0 20px 0;
+$tableBorder: 1px solid #eee;
+$bodyColorDark: #222;
+$bodyColorLight: #eee;
+$linkColor: #009bd5;
+$linkColorHover: #e1146d;
+$goColor: #78be20; //#63C99C
+$errorColor: #e87460;
+$asdDarkBlue: #012945;
+//endregion Variable Properties
+
+//region Mixins ---------------------------------------------
+@mixin asdIcon($content) {
+	content: $content;
+	font-family: "asd-icons", sans-serif;
+}
+
+// @include vendor-prefix('box-sizing', 'border-box, second-value');
+@mixin vendor($name, $values...) {
+	@each $vendor in ("-webkit-", "-moz-", "-ms-", "-o-", "") {
+		#{$vendor}#{$name}: #{$values};
+	}
+}
+
+@mixin verticalAlign {
+	top: 50%;
+	transform: perspective(1px) translateY(-50%);
+}
+
+@mixin placeholder {
+	color: #888;
+	opacity: 1;
+	//padding-left: 10px;
+}
+
+@mixin buttonColors {
+	background-color: $linkColor;
+	color: #fff;
+}
+
+@mixin buttonColorsHover {
+	background-color: $linkColorHover;
+	color: #fff;
+}
+
+@mixin zeroSpace {
+	margin: 0;
+	padding: 0;
+}
+
+//endregion Mixins
+//endregion Setup
+
+//region General HTML =============================
+//region Defaults ---------------------------------------------
+.visuallyhidden {
+	position: absolute;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+}
+
+::-moz-selection {
+	background-color: #333;
+	color: #fff;
+}
+
+::selection {
+	background-color: #333;
+	color: #fff;
+}
+
+#wpstats,
+.asd-no-show {
+	display: none;
+}
+
+//endregion Defaults
+
+//region Accessibility ---------------------------------------------
+
+//region Accessible Menu
+.menu .menu-item:focus {
+	position: static;
+}
+
+.menu .menu-item > a:focus + ul.sub-menu,
+.menu .menu-item.sfHover > ul.sub-menu {
+	left: auto;
+	opacity: 1;
+}
+
+//endregion Accessible Menu
+
+//region Screen Reader Text
+.screen-reader-text,
+.screen-reader-text span,
+.screen-reader-shortcut {
+	@extend .visuallyhidden;
+	word-wrap: normal !important;
+}
+
+.screen-reader-text:focus,
+.screen-reader-shortcut:focus,
+.widget_search input[type="submit"]:focus,
+.genesis-nav-menu .search input[type="submit"]:focus {
+	display: block;
+	z-index: 100000; /* Above WP toolbar. */
+	clip: auto !important;
+	width: auto;
+	height: auto;
+	background: #fff;
+	font-size: 1em;
+	font-weight: bold;
+	text-decoration: none;
+	padding: 15px 23px 14px;
+	color: #333;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, .6);
+}
+
+.screen-reader-shortcut {
+	top: -100px;
+}
+
+.screen-reader-shortcut:focus {
+	top: -2px;
+	width: 50%;
+	background: $linkColor;
+	font: 600 120% $buttonFont;
+	text-align: center;
+	color: #fff;
+	border: 2px solid $linkColorHover;
+	border-radius: 0 0 20px 20px;
+	outline: none;
+	@include vendor(transition, top ease-in-out .5s);
+	@include vendor(box-shadow, 0 10px 20px rgba(0, 0, 0, 0.4)) ;
+}
+
+.more-link {
+	position: relative;
+}
+
+//endregion Screen Reader Text
+
+//region Skip Links
+.genesis-skip-link {
+	margin: 0;
+	
+	li {
+		width: 0;
+		height: 0;
+		list-style: none;
+	}
+}
+
+//endregion Skip Links
+
+//endregion Accessibility
+
+//region Typographical Elements ---------------------------------------------
+/* Chrome fix */
+body > div {
+	font-size: $baseFontSize
+}
+
+body {
+	background: url("images/body_bg.png") #222;
+	font-family: $bodyFont;
+	font-size: $baseFontSize;
+	font-weight: 300;
+	line-height: 1.625;
+	color: $bodyColorLight;
+	-webkit-font-smoothing: antialiased;
+}
+
+p {
+	margin: $standardMargin;
+	padding: 0;
+}
+
+ol,
+ul {
+	@include zeroSpace;
+}
+
+hr {
+	margin: 20px 0;
+	border-collapse: collapse;
+	border: 0;
+	border-top: 1px solid #eee;
+}
+
+blockquote {
+	background-color: rgba(10, 50, 200, 0.25);
+	font-family: $bodyFont;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 2;
+	margin: 40px 0;
+	padding: 10px 10px 10px 30px;
+	border-left: 4px solid #027;
+}
+
+p > code {
+	background-color: #000;
+	padding: 4px 8px;
+	color: $goColor;
+}
+
+//endregion Typographical Elements
+
+//region Headings ---------------------------------------------
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.asd-headings {
+	font-family: $headingFont;
+	font-weight: 600;
+	line-height: 1.4;
+	margin: 20px 0 10px 0;
+}
+
+h1 {
+	font-size: 36px;
+	margin: 0.67em 0;
+}
+
+h2 {
+	font-size: 30px;
+}
+
+//.home #homelogin h2 {
+//  color: #fff;
+//}
+
+h3 {
+	font-size: 24px;
+}
+
+h4 {
+	font-size: 20px;
+}
+
+h5,
+.vcard h1 {
+	font-size: $baseFontSize
+}
+
+h6 {
+	font-size: 16px;
+}
+
+//.entry-content h2,
+//.entry-content h3,
+//.entry-content h4,
+//.entry-content h5,
+//.entry-content h6 {
+//  margin: 30px 0 10px;
+//}
+//endregion Headings
+
+//region Tables ---------------------------------------------
+table {
+	width: 100%;
+	line-height: 2;
+	margin-bottom: 40px;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+tbody {
+	border-bottom: $tableBorder;
+	
+	tr {
+		background: rgba(0, 0, 0, 0.1);
+	}
+	
+	tr:nth-child(2n) {
+		background: rgba(0, 0, 0, 0.25);
+	}
+}
+
+td {
+	padding: 6px;
+	border-top: $tableBorder;
+}
+
+th {
+	font-family: $buttonFont;
+	font-weight: 600;
+	padding: 0 6px;
+	border-bottom: 1px solid;
+}
+
+td,
+th {
+	text-align: left;
+	
+	:first-child {
+		padding-left: 0;
+	}
+}
+
+//endregion Tables
+
+//region Forms ---------------------------------------------
+form {
+	font: 400 120% $buttonFont;
+}
+
+input,
+select,
+textarea,
+.asdFormBase {
+	display: block;
+	width: 100%;
+	background-color: #eee;
+	margin: 8px 0 12px 0;
+	padding: 12px;
+	color: #222;
+	box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.4);
+	border: 1px solid $linkColor;
+	border-radius: 8px;
+}
+
+input:focus,
+textarea:focus,
+.asdInputFocus {
+	background-color: #fff;
+	font-weight: 600;
+	border: 1px solid #e2e2e2;
+	outline: none;
+	@include vendor(transition, border-color ease-in-out .15s);
+}
+
+input[type="radio"],
+input[type="image"],
+input[type="checkbox"] {
+	//width: auto;
+}
+
+::-moz-placeholder {
+	@include placeholder;
+}
+
+::-webkit-input-placeholder {
+	@include placeholder;
+}
+
+//#homeloginform label,
+//input[type="search"]::-webkit-search-cancel-button,
+//input[type="search"]::-webkit-search-results-button {
+//	@extend .asd-no-show;
+//}
+
+//region Radio Buttons
+//.site-inner .gform_wrapper .gfield_radio li label {
+//	position: relative;
+//	margin: 0;
+//	padding-left: 30px;
+//	cursor: pointer;
+//}
+
+[type="radio"]:empty {
+	@extend .visuallyhidden;
+}
+
+/* Radio Labels*/
+[type="radio"] ~ label {
+
+}
+
+[type="radio"]:empty ~ label {
+	//@include vendor("user-select", "none");
+}
+
+[type="radio"] ~ label:before {
+	position: absolute;
+	left: -5px;
+}
+
+[type="radio"]:empty ~ label:before {
+	@include asdIcon("\f10c");
+	@include verticalAlign;
+}
+
+[type="radio"]:checked ~ label:before {
+	@include asdIcon("\f192");
+	color: $linkColorHover;
+}
+
+//endregion Radio Buttons
+
+//region Checkbox
+.site-inner .gform_wrapper .gfield_checkbox li input[type="checkbox"],
+.asd-checkbox {
+	@extend .visuallyhidden;
+}
+
+input[type="checkbox"] ~ label,
+.asd-checkbox-label,
+.site-inner .gform_wrapper .gfield_radio li label {
+	position: relative;
+	margin: 0;
+	padding-left: 30px;
+	cursor: pointer;
+	@include vendor("user-select", "none");
+}
+
+input[type="checkbox"] ~ label:before {
+	position: absolute;
+	left: 0;
+	font-size: 1.2em;
+	transition: all 0.1s ease-in;
+	@include asdIcon("\e816");
+	@include verticalAlign;
+}
+
+input[type="checkbox"]:checked ~ label:before {
+	//position: absolute;
+	//left: 27px;
+	@include asdIcon("\5d");
+	color: $linkColorHover;
+	//border-radius: 100px;
+}
+
+//endregion Checkbox
+
+//region Search Form
+
+.search-form {
+	position: relative;
+	overflow: hidden;
+	
+	&:before {
+		@include asdIcon("\6a");
+		@include verticalAlign;
+		position: absolute;
+		left: 0;
+		font-size: 1.4em;
+		line-height: 1;
+		padding: .5em;
+		color: $linkColor;
+	}
+	
+	[type="search"] {
+		padding-left: 2.5em;
+	}
+}
+
+.search-form [type="submit"],
+.lost-password-form [type="submit"] {
+	margin-top: 10px;
+}
+
+.widget_search [type="submit"],
+.genesis-nav-menu .search input[type="submit"] {
+	@extend .visuallyhidden;
+}
+
+.widget_search [type="submit"]:focus {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	padding: 20px 16px;
+}
+
+//endregion Search Form
+
+//endregion Forms
+
+//region Links and Buttons ---------------------------------------------
+a,
+.asd-a {
+	//font-family: $bodyFont;
+	@include vendor(transition, background 0.25s ease-in-out);
+	text-decoration: none;
+	color: $linkColor;
+}
+
+a:hover,
+a:focus,
+.asd-hover {
+	text-decoration: none;
+	color: $linkColorHover;
+}
+
+.more-link {
+	//position: relative;
+}
+
+// External Links
+/* Todo set up properly for launch
+a[href*="http"]:not( [href*="https://"]):after,
+a[href*="http"]:not( [href*="https://"]):after{
+  @include asdIcon("!");
+  margin: 2px 0 0 3px;
+}
+*/
+//region Buttons
+button,
+.button,
+.asd-button,
+input.button,
+input[type="reset"],
+input[type="button"],
+input[type="submit"],
+.more-link,
+	/* Pagination*/
+.pagination a,
+.pagination .page-numbers,
+.archive-pagination .active a,
+	/* Comments */
+.entry-comments-link,
+	/* Widgets */
+.widget-tags a,
+.widget-categories a {
+	display: inline-block;
+	@include vendor(transition, all 0.25s ease-in-out);
+	@include buttonColors;
+	width: auto;
+	font-family: $buttonFont;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	white-space: normal;
+	text-decoration: none;
+	text-transform: uppercase;
+	margin: 20px 0;
+	padding: 20px 25px;
+	cursor: pointer;
+	box-shadow: none;
+	border: 0;
+	border-radius: 4px;
+	overflow-wrap: break-word;
+}
+
+// Button:Hover
+.asd-button-hover,
+button:hover,
+button:focus,
+.button:hover,
+.button:focus,
+.button.alt:hover,
+.button.alt:focus,
+input[type="reset"]:hover,
+input[type="reset"]:focus,
+input[type="button"]:hover,
+input[type="button"]:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus,
+.more-link:hover,
+.more-link:focus,
+	/* Pagination*/
+.pagination a:hover,
+.pagination .page-numbers:hover,
+.pagination li.active a,
+.archive-pagination a:focus,
+.archive-pagination a:hover,
+	/* Comments */
+.entry-comments-link:hover,
+.entry-comments-link:focus,
+	/* Widgets */
+.widget-tags a:hover,
+.widget-tags a:focus,
+.widget-categories a:hover,
+.widget-categories a:focus {
+	@include buttonColorsHover;
+}
+
+// Button Disabled
+.asd-button-disabled,
+button:disabled:hover,
+input:disabled,
+input:disabled:hover,
+button:disabled,
+input[type="button"]:disabled,
+input[type="button"]:disabled:hover,
+input[type="reset"]:disabled,
+input[type="reset"]:disabled:hover,
+input[type="submit"]:disabled,
+input[type="submit"]:disabled:hover {
+	background-color: #eee;
+	cursor: not-allowed;
+	pointer-events: none;
+	color: #777;
+	border-width: 0;
+}
+
+.asd-button-active,
+button:active,
+.button:active,
+input.button:active,
+input[type="reset"]:active,
+input[type="button"]:active,
+input[type="submit"]:active,
+.more-link:active,
+	/* Pagination*/
+.pagination a:active,
+.pagination .page-numbers:active,
+.archive-pagination .active a:active,
+	/* Comments */
+.entry-comments-link:active,
+	/* Widgets */
+.widget-tags a:active,
+.widget-categories a:active {
+	box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+// Buttons Small
+.asd-button-small,
+button.small,
+.button.small,
+input[type="reset"].small,
+input[type="button"].small,
+input[type="submit"].small {
+	padding: 12px 20px;
+}
+
+//endregion Buttons
+
+//endregion Links and Buttons
+
+//endregion General HTML
+
+//region Structure and Layout =============================
+//region Structure ---------------------------------------------
+
+// Wrap contains Header, Site Inner, Footer
+.site-container {
+	display: grid;
+	grid-template-columns: 10% 20% 1fr 10%;
+	grid-template-rows: 120px auto;
+}
+
+// Wrap contains Content, Sidebar
+.site-inner {
+	display: grid;
+	max-width: 1280px;
+	grid-template-columns: 2fr 1fr;
+	grid-row-start: 2;
+	grid-column: 2 / 4;
+	padding-top: 60px;
+	gap: 0 20px;
+}
+
+// Main Content
+#genesis-content {
+	grid-column: 1/2;
+}
+
+.full-width-content #genesis-content {
+	grid-column: 1/3;
+}
+
+//region Primary Sidebar
+#genesis-sidebar-primary {
+	grid-column: 2/3;
+}
+
+.full-width-content #genesis-sidebar-primary {
+	grid-column: 1/3;
+	margin-top: 20%;
+}
+
+//endregion Primary Sidebar
+
+//endregion Structure
+
+//region Header ---------------------------------------------
+.site-header {
+	grid-column-start: 2;
+	grid-column-end: 5;
+	grid-row-start: 1;
+	align-self: center;
+}
+
+.site-header > .wrap {
+	//padding: 20px 0;
+}
+
+.site-header .logo {
+	//padding: 0;
+}
+
+.title-area {
+	//float: left;
+	padding: 0;
+	//width: 430px;
+}
+
+// Basic Genesis Text Header
+.site-title a {
+	//@extend .asd-headings;
+	//font-size: 40px;
+	//margin: 0;
+}
+
+.site-header .widget-area {
+	//float: right;
+	//overflow: hidden;
+	//width: 820px;
+}
+
+.site-header .search-form {
+	//width: 50%;
+	//margin: 12px 40px 0 auto;
+}
+
+//endregion Header
+
+//region Navigation ---------------------------------------------
+
+// Header Main Nav Menu
+.nav-primary {
+	justify-items: start;
+	align-items: center;
+	grid-row-start: 1;
+	grid-column: 3/4;
+	align-self: center;
+}
+
+.menu-primary { //<ul>
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 0 20px;
+}
+
+// Mobile Perspective Effect Menu
+.nav-secondary {
+	display: none;
+}
+
+// Current Page
+.current-menu-item a {
+	pointer-events: none;
+}
+
+// All Nav Genesis Nav Menus
+.genesis-nav-menu { //<ul>
+	
+	.menu-item { // <li>
+		display: inline-block;
+		justify-items: start;
+		grid-row-start: 1;
+	}
+	
+	a {
+		display: block;
+		//padding: 32px 32px 32px 0;
+		font: 700 180% $headingFont;
+		text-shadow: 0 1px 1px #ccc, 0 -1px 1px #333, 10px 10px 20px #000;
+		color: $bodyColorLight;
+	}
+	
+	a:hover,
+	a:focus,
+	.current-menu-item > a {
+		text-shadow: 0 -1px 1px #333, 10px 10px 20px #000;
+		color: $linkColor;
+	}
+	
+	.menu-description {
+		display: block;
+		font-size: 60%;
+		font-weight: 300;
+	}
+}
+
+//region Accessible Menu
+.menu .menu-item:focus {
+	position: static;
+}
+
+.menu-toggle,
+.sub-menu-toggle {
+	display: none;
+	visibility: hidden;
+}
+
+//endregion Accessible Menu
+
+//endregion Navigation
+
+//region Content Area ---------------------------------------------
+
+//region Entries
+.entry-header .entry-title {
+	margin-top: 0;
+}
+
+.entry-content {
+	
+	ol,
+	ul {
+		margin-bottom: 28px;
+		margin-left: 40px;
+	}
+	
+	ol > li {
+		list-style-type: decimal;
+	}
+	
+	ul > li {
+		list-style-type: disc;
+	}
+	
+	form ul > li {
+		list-style-type: none;
+	}
+	
+	ol ol,
+	ul ul {
+		margin-bottom: 0;
+	}
+	
+	.blocks-gallery-grid {
+		margin-left: 0;
+	}
+}
+
+//endregion Entries
+
+//region Entries Meta
+.entry-header .entry-meta {
+	//margin-bottom: 24px;
+	//display: none;
+}
+
+.entry-footer .entry-meta {
+	//border-top: 1px solid #eee;
+	//padding-top: 24px;
+}
+
+.entry-categories,
+.entry-tags {
+	//display: block;
+}
+
+//endregion Entries Meta
+
+//region Pagination
+.pagination {
+	//clear: both;
+	margin: 40px 0;
+}
+
+.adjacent-entry-pagination {
+	margin-bottom: 0;
+}
+
+.archive-pagination li {
+	display: inline;
+	line-height: 3.5;
+}
+
+.archive-pagination a {
+	display: inline-block;
+}
+
+//endregion Pagination
+
+//region Comments
+.comment-list li {
+	padding: 40px 0 0 30px;
+}
+
+.comment-list .depth-1 {
+	padding-left: 0;
+}
+
+.comment-header {
+	margin-bottom: 30px;
+	
+	p {
+		margin-bottom: 0;
+	}
+	
+}
+
+.comment-content {
+	//clear: both;
+	
+	ul > li {
+		list-style-type: disc;
+	}
+}
+
+.comment-respond input[type="email"],
+.comment-respond input[type="text"],
+.comment-respond input[type="url"] {
+	width: 50%;
+}
+
+.comment-respond label {
+	display: block;
+	margin-right: 12px;
+}
+
+.entry-pings .reply {
+	@extend .asd-no-show;
+}
+
+//endregion Comments
+
+//region After Entry Widget
+.after-entry .widget {
+}
+
+.after-entry .widget-title {
+}
+
+.after-entry .widget_text {
+}
+
+//endregion After Entry Widget
+
+//endregion Content Area
+
+//region Footer ---------------------------------------------
+.site-footer {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, auto);
+	grid-column: 1/-1;
+	background: #2d2c2a url("images/hexigonal-grid.png") repeat;
+	font-family: $headingFont;
+	text-align: center;
+	padding: 5% 0 3% 0;
+	box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.25);
+	border-top: 1px solid #777;
+	
+	p {
+		margin-bottom: 0;
+		
+		&.asd-copyright {
+			grid-row-start: 3;
+			grid-column: 1/-1;
+			margin-top: 20px;
+		}
+		
+	}
+	
+	.asd-phone {
+		font-size: 150%;
+		//color: #fff;
+	}
+}
+
+//region Footer Menu
+.nav-footer {
+	//display: inherit;
+	grid-row-start: 2;
+	grid-column: 2/2;
+	
+	.menu-item a {
+		//background: none;
+		font-size: 150%;
+		font-weight: 400;
+		padding: 0 32px;
+	}
+}
+
+//endregion Footer Menu
+
+//region Footer Widgets
+.footer-widgets {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: auto;
+	grid-row-start: 2;
+	grid-column: 1/-1;
+	
+	.widget {
+		margin-bottom: 0;
+	}
+	
+	.footer-widgets-1 {
+		grid-column: 3/3;
+	}
+	
+	.footer-widgets-2 {
+		grid-column: 2/2;
+	}
+	
+	.footer-widgets-3 {
+		grid-column: 1/1;
+	}
+}
+
+//endregion Footer Widgets
+
+//region vCard
+.vcard {
+	text-align: left;
+}
+
+.entry-content .vcard h2 {
+	//position: relative;
+	margin: 0;
+	
+	a:after {
+		font-size: 80%;
+		margin-left: 10px;
+		content: "Y";
+	}
+}
+
+.vcard {
+	p {
+		margin-bottom: 0;
+	}
+	
+	.type,
+	.adr .type,
+	.country-name {
+		display: none;
+	}
+	
+	.fax,
+	.soc > div {
+		display: inline-block;
+	}
+	
+	.soc {
+		margin-top: 10px;
+	}
+}
+
+//endregion vCard
+
+//endregion Footer
+
+//endregion Structure and Layout
+
+//region WordPress Sections =============================
+
+//region General
+.wp-caption-text {
+	font-size: 14px;
+	font-weight: 600;
+	text-align: center;
+	margin: 0;
+}
+
+.entry-content .wp-video,
+.entry-content .wp-playlist,
+.entry-content .wp-audio-shortcode {
+	margin: 0 0 28px;
+}
+
+//endregion General
+
+//region Alignments
+a.aligncenter img {
+	display: block;
+	margin: 0 auto;
+}
+
+a.alignnone {
+	display: inline-block;
+}
+
+.alignleft {
+	//float: left;
+	text-align: left;
+}
+
+.alignright {
+	//float: right;
+	text-align: right;
+}
+
+a.alignleft,
+a.alignnone,
+a.alignright {
+	max-width: 100%;
+}
+
+img.centered,
+.aligncenter {
+	display: block;
+	margin: 0 auto 24px;
+}
+
+img.alignnone,
+.alignnone {
+	margin-bottom: 12px;
+}
+
+a.alignleft,
+img.alignleft,
+.wp-caption.alignleft {
+	margin: 0 24px 24px 0;
+}
+
+a.alignright,
+img.alignright,
+.wp-caption.alignright {
+	margin: 0 0 24px 24px;
+}
+
+//endregion  Alignments
+
+//region Breadcrumbs
+.breadcrumb {
+	background-color: #fff;
+	font-size: 16px;
+	margin-bottom: 1px;
+	padding: 12px 0;
+}
+
+.breadcrumb-link-wrap:first-of-type {
+	@extend .asd-no-show;
+}
+
+//endregion Breadcrumbs
+
+//region Avatar
+.avatar {
+	border-radius: 50%;
+	//float: left;
+	
+	.alignleft &,
+	.author-box & {
+		margin-right: 24px;
+	}
+	
+	.alignright & {
+		margin-left: 24px;
+	}
+	
+	.comment & {
+		margin: 0 16px 24px 0;
+	}
+}
+
+//endregion Avatar
+
+//region Gallery
+.gallery {
+	overflow: hidden;
+}
+
+.gallery-item {
+	//float: left;
+	text-align: center;
+	margin: 0 0 28px;
+	
+	.gallery-columns-1 & {
+		width: 100%;
+	}
+	
+	.gallery-columns-2 & {
+		width: 50%;
+	}
+	
+	.gallery-columns-3 & {
+		width: 33%;
+	}
+	
+	.gallery-columns-4 & {
+		width: 25%;
+	}
+	
+	.gallery-columns-5 & {
+		width: 20%;
+	}
+	
+	.gallery-columns-6 & {
+		width: 16.7%;
+	}
+	
+	.gallery-columns-7 & {
+		width: 14.2857%;
+	}
+	
+	.gallery-columns-8 & {
+		width: 12.5%;
+	}
+	
+	.gallery-columns-9 & {
+		width: 11.1111%;
+	}
+	
+	.gallery-columns-2 &:nth-child(2n+1),
+	.gallery-columns-3 &:nth-child(3n+1),
+	.gallery-columns-4 &:nth-child(4n+1),
+	.gallery-columns-5 &:nth-child(5n+1),
+	.gallery-columns-6 &:nth-child(6n+1),
+	.gallery-columns-7 &:nth-child(7n+1),
+	.gallery-columns-8 &:nth-child(8n+1),
+	.gallery-columns-9 &:nth-child(9n+1) {
+		//clear: left;
+	}
+	
+}
+
+.gallery img {
+	height: auto;
+	padding: 4px;
+	border: 1px solid #eee;
+	
+	:hover,
+	:focus {
+		border: 1px solid #999;
+	}
+}
+
+//endregion Gallery
+
+//region Widgets
+.widget {
+	word-wrap: break-word;
+	margin-bottom: 40px;
+	
+	p:last-child,
+	ul:last-of-type,
+	ul > li:last-of-type {
+		margin-bottom: 0;
+	}
+	
+	ul > li {
+		margin-bottom: 10px;
+		padding-bottom: 10px;
+	}
+	
+	ul > li:last-of-type {
+		padding-bottom: 0;
+	}
+	
+	ol > li {
+		text-indent: -20px;
+		padding-left: 20px;
+		list-style: decimal inside;
+	}
+	
+	li li {
+		margin: 0 0 0 30px;
+		padding: 0;
+		border: 0;
+	}
+}
+
+.widget_calendar {
+	
+	table {
+		width: 100%;
+	}
+	
+	td,
+	th {
+		text-align: center;
+	}
+}
+
+//endregion Widgets
+
+//region Author Box
+.author-box {
+	margin-top: 70px;
+	padding: 30px;
+	box-shadow: 0 0 3em 0 rgba(0, 0, 0, .2);
+	border: 1px solid #ccc;
+	
+	.archive & {
+		margin-top: 0;
+		margin-bottom: 40px;
+	}
+	
+	& p:last-child,
+	.archive-description p:last-child {
+		margin-bottom: 0;
+	}
+}
+
+//endregion Author Box
+
+//region Gutenberg Blocks
+@import "Build/_gutenbergblocks";
+//endregion Gutenberg Blocks
+
+//endregion WordPress Sections
+
+//region  Custom Functions =============================
+
+//region ASD Login ---------------------------------------------
+
+.home #homelogin {
+	//float: right;
+	//width: 35%;
+	background: rgba(99, 99, 99, 0.07);
+	margin-bottom: 40px;
+	padding: 20px;
+	border: 2px solid rgba(16, 16, 16, 0.81);
+	border-radius: 10px;
+}
+
+#homelogin .register {
+	margin-bottom: 0;
+	
+	a {
+		@extend .asd-button;
+		display: inherit;
+		margin-right: 0;
+		//background-color: #0085ca;
+	}
+	
+	a:hover {
+		@extend .asd-button-hover;
+	}
+	
+}
+
+#homelogin {
+	
+	.home & a,
+	.home & p {
+		//color: #fff;
+	}
+	
+	& p {
+		margin-bottom: 10px;
+	}
+	
+	& .forgot-password {
+		margin-top: 10px;
+	}
+	
+	& input[type="submit"] {
+		width: 100%;
+	}
+	
+	.gform_confirmation_message & {
+		width: 35%;
+	}
+}
+
+//endregion ASD Login
+
+//endregion  Custom Functions
+
+//region Plugins =============================
+
+//@import "Build/_woocommerce";
+
+@import "Build/_gravityforms";
+
+//@import "Build/_wp_courseware";
+
+//@import "Build/_awesome_support";
+
+@import "Build/_perspectivemenu";
+//endregion Plugins
+
+//region Media Queries =============================
+
+@media only screen and (max-width: 1300px) {
+	.wrap,
+	.site-inner {
+		//max-width: 1000px;
+	}
+	
+	.nav-primary > .wrap {
+		max-width: 100%;
+	}
+	
+	.site-header .title-area,
+	.site-header .widget-area {
+		//float: none;
+		//width: 100%;
+		//text-align: center;
+	}
+	
+	.content {
+		//width: 700px;
+		//padding: 0;
+	}
+	
+	.sidebar-primary {
+		//width: 300px;
+	}
+	
+	.content-sidebar > article {
+		//padding-right: 20px;
+	}
+	
+	.site-header .search-form {
+		//margin: 20px auto 0;
+	}
+	
+	@include asd-perp-menu-max-1300;
+}
+
+@media only screen and (max-width: 1100px) {
+	
+	.wrap,
+	.site-inner {
+		max-width: 800px;
+	}
+	
+	.genesis-skip-link .skip-link-hidden,
+	.nav-primary .genesis-nav-menu > li:before,
+	.nav-primary .genesis-nav-menu a span[itemprop="description"] {
+		display: none;
+		visibility: hidden;
+	}
+	
+	.content,
+	.genesis-nav-menu .sub-menu a,
+	.genesis-nav-menu .sub-menu,
+	.sidebar-primary {
+		width: 100%;
+	}
+	
+	.content {
+		padding: 0;
+	}
+	
+	.genesis-nav-menu li,
+	.site-header ul.genesis-nav-menu,
+	.site-header .search-form {
+		//float: none;
+	}
+	
+	.site-header .search-form {
+		margin: 16px auto;
+	}
+	
+	.header-widget-area .tagline {
+		display: block;
+		margin-right: 0;
+	}
+	
+	.genesis-nav-menu {
+		text-align: center;
+	}
+	
+	nav.pagination {
+		display: block;
+	}
+	
+	.nav-primary .genesis-nav-menu {
+		//position: relative;
+	}
+	
+	.widget-area.flexible-widgets.widget-fourths .widget {
+		width: 48.717948717948715%;
+	}
+	
+	.widget-area.flexible-widgets.widget-fourths .widget:nth-child(2n+1) {
+		//clear: left;
+		margin-left: 0;
+		padding-left: 0;
+	}
+	
+	.home .widget-title {
+		font-size: 24px;
+	}
+	
+	.home #homelogin {
+		//float: none;
+		width: inherit;
+	}
+	
+	.vcard,
+	.vcard .adr {
+		width: inherit;
+	}
+	
+}
+
+@media only screen and (max-width: 880px) {
+	
+	//region Structure ---------------------------------------------
+	
+	//region Buttons ---------------------------------------------
+	button,
+	.button,
+	.asd-button,
+	input.button,
+	input[type="reset"],
+	input[type="button"],
+	input[type="submit"],
+	.more-link,
+		/* Pagination*/
+	.pagination a,
+	.pagination .page-numbers,
+	.archive-pagination .active a,
+		/* Comments */
+	.entry-comments-link,
+		/* Widgets */
+	.widget-tags a,
+	.widget-categories a {
+		width: 100%;
+	}
+	
+	// Wrap contains Header, Site Inner, Footer
+	.site-container {
+		grid-template-columns: 5% 1fr 5%;
+		grid-template-rows: 120px auto;
+	}
+	
+	// Wrap contains Content, Sidebar
+	.site-inner {
+		display: grid;
+		grid-template-columns:  1fr;
+		//padding-top: 60px;
+		grid-template-rows:  repeat(2, auto);
+		grid-row-start: 2;
+		grid-column: 2 / 2;
+	}
+	
+	#genesis-content {
+		grid-row-start: 2;
+		grid-column: 1/1;
+	}
+	//endregion Buttons
+	
+	//region Primary Sidebar ---------------------------------------------
+	#genesis-sidebar-primary {
+		grid-row-start: 1;
+		grid-column: 1/1;
+	}
+	
+	.full-width-content #genesis-sidebar-primary {
+		grid-column: 1/3;
+		margin-top: 20%;
+	}
+	//endregion Primary Sidebar
+	
+	//endregion Structure
+	
+	//region Forms ---------------------------------------------
+	#genesis-content {
+		input[type="radio"] ~ label,
+		input[type="image"] ~ label,
+		input[type="checkbox"] ~ label {
+			width: 100%;
+			max-width: 100%;
+			background: rgba(0, 0, 0, 0.25);
+			text-align: center;
+			padding: 15px;
+		}
+		
+		input[type="radio"] ~ label:before,
+		input[type="checkbox"] ~ label:before {
+			left: 5%;
+		}
+		
+		input[type="radio"]:checked ~ label,
+		input[type="checkbox"]:checked ~ label {
+			// todo got here
+			background: rgba(0, 0, 0, 0.75) !important;
+			border: 1px solid #888;
+		}
+	}
+	//endregion Forms
+	
+	//region Header ---------------------------------------------
+	.site-header {
+		grid-column: 1/-1;
+		justify-self: center;
+	}
+	//endregion Header
+	
+	//region Navigation ---------------------------------------------
+	.nav-primary {
+		display: none;
+	}
+	
+	.nav-secondary {
+		display: block;
+		
+		.genesis-nav-menu {
+			text-align: left;
+			
+			.menu-item {
+				margin-bottom: 20px;
+			}
+		}
+	}
+	//endregion Navigation
+	
+	//region Content Area ---------------------------------------------
+	
+	.archive-pagination li a {
+		margin-bottom: 4px;
+	}
+	
+	[class^="icon-"]:before, [class*=" icon-"]:before {
+		font-size: 200%;
+	}
+	
+	//endregion Content Area
+	
+	//region Footer ---------------------------------------------
+	.site-footer {
+		display: grid;
+		grid-template-columns: 1fr;
+		padding: 5% 0 3% 0;
+		
+		.asd-copyright {
+			grid-row-start: 3;
+			grid-column: 1/-1;
+			margin-top: 20px;
+		}
+		
+		.asd-phone {
+			font-size: 150%;
+		}
+	}
+	
+	//region Footer Menu
+	.nav-footer {
+		grid-row-start: 2;
+		grid-column: 1/-1;
+		
+		.current-menu-item > a {
+			background-color: transparent;
+		}
+	}
+	//endregion Footer Menu
+	
+	//region Footer Widgets
+	.footer-widgets {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: repeat(3, auto);
+		grid-row-start: 1;
+		grid-column: 1/-1;
+		
+		.widget {
+			margin-bottom: 0;
+		}
+		
+		.footer-widgets-1 {
+			grid-row-start: 1;
+			grid-column: 1/-1;
+		}
+		
+		.footer-widgets-2 {
+			grid-row-start: 2;
+			grid-column: 1/-1;
+		}
+		
+		.footer-widgets-3 {
+			grid-row-start: 3;
+			grid-column: 1/1;
+		}
+	}
+	//endregion Footer Widgets
+	
+	//endregion Footer ---------------------------------------------
+	@include asd-perp-menu;
+}
+
+@media only screen and (max-width: 420px) {
+	
+	//.front-page .content .featured-content .entry-comments-link {
+	//	display: block;
+	//	//float: none;
+	//}
+	//
+	//#asd-greeting a.button {
+	//	display: block;
+	//	text-align: center;
+	//	margin: 0 0 20px 0;
+	//
+	//	.register {
+	//		display: inherit;
+	//	}
+	//
+	//	#asd-greeting a.button:first-of-type {
+	//		margin-right: 0;
+	//	}
+	//}
+	//input[type=submit],
+	//[type="radio"] ~ label {
+	//	width: 100%;
+	//}
+	
+}
+
+@import "/.../Build/_print";
+//endregion  Media Queries
